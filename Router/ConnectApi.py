@@ -15,7 +15,7 @@ def login():
         data = request.get_json()
         pseudo = data['pseudo']
         password = data['password']
-        sql = """SELECT id, pseudo, mail, password FROM user WHERE pseudo =? and password =?"""
+        sql = """SELECT id, pseudo, mail, password FROM user WHERE pseudo =%s and password =%s"""
         cursor.execute(sql,(pseudo,password))
         row = cursor.fetchone()
         if row is not None :

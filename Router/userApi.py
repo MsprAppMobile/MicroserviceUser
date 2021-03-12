@@ -24,7 +24,7 @@ def users() :
         pseudo = data['pseudo']
         mail = data['mail']
         password = data ['password']
-        sql = """INSERT INTO user (pseudo,mail,password) VALUES (?,?,?); """
+        sql = """INSERT INTO user (pseudo,mail,password) VALUES (%s,%s,%s); """
         cursor.execute(sql,(pseudo,mail,password))
         conn.commit()
         cursor.close()
@@ -37,7 +37,7 @@ def single_user(id):
     cursor = conn.cursor()
     user = None
     if request.method == 'GET':
-        cursor.execute("SELECT * FROM user WHERE id =?",(int(id),))
+        cursor.execute("SELECT * FROM user WHERE id =%s",(int(id),))
         rows = cursor.fetchall()
         for r in rows :
             user = r
@@ -52,7 +52,7 @@ def single_user(id):
 
 
     if request.method == 'DELETE':
-        sql = """ DELETE FROM user WHERE id=? """
+        sql = """ DELETE FROM user WHERE id=%s """
         cursor.execute(sql,(int(id),))
         conn.commit()
         cursor.close()
