@@ -10,6 +10,6 @@ def db_connection():
     db_database = os.getenv('DB_DATABASE')
 
     try : conn = mariadb.connect(user= db_user, password= db_password, host= db_host,database= db_database)
-    except mariadb.connector.Error:
+    except mariadb.Error:
         print("Can't connect to db")
     return conn

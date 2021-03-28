@@ -70,9 +70,20 @@ def single_user(id):
         return "User with the id {} has been modify".format(id),200
 
     if request.method == 'DELETE':
-        sql = """ DELETE FROM user WHERE id=%s """
-        cursor.execute(sql,(int(id),))
+        sql = """ DELETE FROM user WHERE id=%s; """
+        cursor.execute(sql,id)
         conn.commit()
         cursor.close()
         conn.close()
         return "User with the id {} has been deleted".format(id),200
+
+@user_api.route('/user/<string:pseudo>', methods=['GET'])
+def get_user_by_pseudo(pseudo):
+    conn = db_connection()
+    cursor = conn.cursor()
+    user = None
+    print(pseudo)
+    if request.method == 'GET' :
+        cursor.execute("SELECT * FROM user WHERE pseudo='" + pseudo + "'")
+        user = cursor.fetchone()
+        return jsonify(user), 200
