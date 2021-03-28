@@ -47,10 +47,9 @@ def single_user(id):
     user = None
     if request.method == 'GET':
         cursor.execute("SELECT * FROM user WHERE id =%s",(int(id)))
-        rows = cursor.fetchall()
-        for r in rows :
-            user = r
-        if user is not None :
+        row = cursor.fetchone()
+        if row is not None :
+            user = dict(id=row[0],pseudo = row[1], mail=row[2], password=row[3], telephone=row[4], genre=row[5], codeP=row[6], ville=row[7], adresse=row[8], complementAdresse=row[9],role=row[10])
             cursor.close()
             conn.close()
             return jsonify(user),200
@@ -85,5 +84,6 @@ def get_user_by_pseudo(pseudo):
     print(pseudo)
     if request.method == 'GET' :
         cursor.execute("SELECT * FROM user WHERE pseudo='" + pseudo + "'")
-        user = cursor.fetchone()
+        row = cursor.fetchone()
+        user = dict(id=row[0],pseudo = row[1], mail=row[2], password=row[3], telephone=row[4], genre=row[5], codeP=row[6], ville=row[7], adresse=row[8], complementAdresse=row[9],role=row[10])
         return jsonify(user), 200
