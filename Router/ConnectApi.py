@@ -15,11 +15,11 @@ def login():
         data = request.get_json()
         pseudo = data['pseudo']
         password = data['password']
-        sql = """SELECT id, pseudo, mail, password FROM user WHERE pseudo =%s and password =%s"""
+        sql = """SELECT * FROM user WHERE pseudo =%s and password =%s"""
         cursor.execute(sql,(pseudo,password))
         row = cursor.fetchone()
         if row is not None :
-            user = User(row[0], row[1], row[2], row[3])
+            user = User(row[0], row[1], row[2], row[3],row[4],row[5],row[6],row[7],row[8],row[9],row[10])
             token = JwtService().create(user)
             return token, 200
         cursor.close()

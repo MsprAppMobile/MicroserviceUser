@@ -1,4 +1,4 @@
-from flask import Blueprint,request,jsonify
+from flask import Blueprint,request,jsonify,json
 from DatabaseManager.connection import db_connection
 
 user_api = Blueprint('user_api',__name__)
@@ -12,32 +12,41 @@ def users() :
     if request.method=='GET':
         cursor.execute("SELECT * FROM user")
         users = [
-            dict(id=row[0],pseudo = row[1], mail=row[2], password=row[3])
+            dict(id=row[0],pseudo = row[1], mail=row[2], password=row[3], telephone=row[4], genre=row[5], codeP=row[6], ville=row[7], adresse=row[8], complementAdresse=row[9],role=row[10])
             for row in cursor.fetchall()
         ]
         if users is not None :
             cursor.close()
             conn.close()
-            return jsonify(users)
-    if request.method=='POST':
+            return jsonify(users),200
+
+    if request.method =='POST':
         data = request.get_json()
+        print('test')
         pseudo = data['pseudo']
         mail = data['mail']
-        password = data ['password']
-        sql = """INSERT INTO user (pseudo,mail,password) VALUES (%s,%s,%s); """
-        cursor.execute(sql,(pseudo,mail,password))
+        password = data['password']
+        telephone = data['telephone']
+        genre = data['genre']
+        codeP = data['codeP']
+        ville = data['ville']
+        adresse = data['adresse']
+        complementAdresse = data['complementAdresse']
+        role = data['role']
+        sql = """INSERT INTO user (pseudo,mail,password,telephone,genre,codeP,ville,adresse,complementAdresse,role) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s); """
+        cursor.execute(sql,(pseudo,mail,password,telephone,genre,codeP,ville,adresse,complementAdresse,role))
         conn.commit()
         cursor.close()
         conn.close()
         return f"User with the id {cursor.lastrowid} created successful"
 
-@user_api.route('/user/<int:id>',methods=['GET','DELETE'])
+@user_api.route('/user/<int:id>',methods=['GET','PUT','DELETE'])
 def single_user(id):
     conn = db_connection()
     cursor = conn.cursor()
     user = None
     if request.method == 'GET':
-        cursor.execute("SELECT * FROM user WHERE id =%s",(int(id),))
+        cursor.execute("SELECT * FROM user WHERE id =%s",(int(id)))
         rows = cursor.fetchall()
         for r in rows :
             user = r
@@ -48,8 +57,17 @@ def single_user(id):
         else :
             cursor.close()
             conn.close()
-            return "Something wrong",404
+            return "Something wrong",405
 
+    if request.method == 'PUT':
+        data = request.get_json()
+        role = data ['role']
+        sql = """UPDATE  user SET role = %s WHERE id=%s; """
+        cursor.execute(sql,(role,int(id)))
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return "User with the id {} has been modify".format(id),200
 
     if request.method == 'DELETE':
         sql = """ DELETE FROM user WHERE id=%s """

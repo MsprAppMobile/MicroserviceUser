@@ -9,7 +9,7 @@ class JwtService():
 
     def create(self, user):
         dt = datetime.now() + timedelta(days=1)
-        encoded_jwt = jwt.encode({'user_id' : user.getId(), 'exp' : dt}, JwtService.SECRET, algorithm = JwtService.ALGOS)
+        encoded_jwt = jwt.encode({'user_id' : user.getId(),'role' : user.getRole(), 'exp' : dt}, JwtService.SECRET, algorithm = JwtService.ALGOS)
         return encoded_jwt
 
     def verify(self, token):        
