@@ -1,4 +1,4 @@
-import mariadb
+import mysql.connector
 import os
 
 def db_connection():
@@ -9,7 +9,7 @@ def db_connection():
     db_host = os.getenv('DB_HOST')
     db_database = os.getenv('DB_DATABASE')
 
-    try : conn = mariadb.connect(user= db_user, password= db_password, host= db_host,database= db_database)
-    except mariadb.Error:
+    try : conn = myslq.connector.connect(user= db_user, password= db_password, host= db_host,database= db_database)
+    except mysql.connector.connect.Error:
         print("Can't connect to db")
     return conn
