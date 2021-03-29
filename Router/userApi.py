@@ -38,7 +38,7 @@ def users() :
         conn.commit()
         cursor.close()
         conn.close()
-        return f"User with the id {cursor.lastrowid} created successful"
+        return "User with the id {cursor.lastrowid} created successful"
 
 @user_api.route('/user/<int:id>',methods=['GET','PUT','DELETE'])
 def single_user(id):
