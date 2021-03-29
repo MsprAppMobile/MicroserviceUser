@@ -29,7 +29,8 @@ sql_user = """ CREATE table `user` (
     ville VARCHAR(100) NOT NULL,
     adresse VARCHAR(100) NOT NULL,
     complementAdresse VARCHAR(100),
-    role VARCHAR(50) NOT NULL);"""
+    role VARCHAR(50) NOT NULL,
+    CONSTRAINT UC_user_pseudo UNIQUE (pseudo));"""
 
 sql_codelist = """CREATE table `codelist` (
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -43,8 +44,8 @@ sql_adduser = """INSERT INTO user (pseudo,mail,password,telephone,genre,codeP,vi
 ('florian','florian@civel.com','aze','0618002677','Madame','44100','Nantes','3 rue de hotel de ville','user');"""
 
 sql_promo = """INSERT INTO code (name,expiration_date,image,description,value,identifiant_QRCode,is_unique,category) values 
-('promotest','2021-03-27','iefhoezjfoijojvre.jpeg','ceci est une promo crash test putain de merde',30,'1254',true,'pourcentage'),
-('promo2','2021-05-05','uihfoief.jpeg','fuck ce projet',20,'identifiantcode',true,'remise');"""
+('promotest','2021-03-27','iefhoezjfoijojvre.jpeg','Ceci est une promo test',30,'1254',true,'pourcentage'),
+('promo2','2021-05-05','uihfoief.jpeg','Ceci est une autre promo',20,'identifiantcode',true,'remise');"""
 
 sql_commit = """COMMIT;"""
 

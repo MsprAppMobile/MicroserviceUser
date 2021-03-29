@@ -2,7 +2,7 @@ import requests
 
 def test_getUsers():
     r = requests.get('http://127.0.0.1:5001/users')
-    resultAtt = '[{"id":1,"mail":"test@test.com","password":"test","pseudo":"test"}]\n'
+    resultAtt = '[{"adresse":"45 rue de la fillaudière","codeP":"44840","complementAdresse":null,"genre":"Monsieur","id":1,"mail":"test@test.com","password":"test","pseudo":"test","role":"admin","telephone":"0240152585","ville":"Les sorinières"},{"adresse":"3 rue de hotel de ville","codeP":"44100","complementAdresse":null,"genre":"Madame","id":2,"mail":"florian@civel.com","password":"aze","pseudo":"florian","role":"user","telephone":"0618002677","ville":"Nantes"}]'
     assert r.text == resultAtt
 
 def test_Exist():
@@ -16,7 +16,7 @@ def test_NotExist():
 
 def test_getUser():
     r = requests.get('http://127.0.0.1:5001/user/1')
-    resultAtt = '[1,"test","test@test.com","test"]\n'
+    resultAtt = '["adresse":"45 rue de la fillaudière","codeP":"44840","complementAdresse":null,"genre":"Monsieur","id":1,"mail":"test@test.com","password":"test","pseudo":"test","role":"admin","telephone":"0240152585","ville":"Les sorinières"]'
     assert r.text == resultAtt
 
 def test_UserDelete():
